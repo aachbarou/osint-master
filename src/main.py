@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 import argparse
 import sys
+from ip_lookup import lookup_ip
+from username_lookup import lookup_username
+from domain_enum import enumerate_domain
 
 def create_parser():
     """
@@ -44,18 +47,36 @@ def main():
 
     args = parser.parse_args()
 
-    # Display the banner
-    print("Welcome to osintmaster multi-function Tool\n")
-
     # Routing logic based on arguments
+    output_lines = []
+    
     if args.ip:
-        print(f"[*] Starting IP Lookup for: {args.ip}")
+        output_lines.append("IP Address:\n")
+        output_lines.append(lookup_ip(args.ip))
+        output_lines.append("")
+        
     if args.username:
-        print(f"[*] Starting Username Lookup for: {args.username}")
+        output_lines.append("Username:\n")
+        output_lines.append(lookup_username(args.username))
+        output_lines.append("")
+        
     if args.domain:
-        print(f"[*] Starting Domain Enumeration for: {args.domain}")
+        output_lines.append("Domain and Subdomain Enumeration:\n")
+        output_lines.append(enumerate_domain(args.domain))
+        output_lines.append("")
+
+    final_output = "\n".join(output_lines).strip()
+    
+    if final_output:
+        print(final_output)
+        
     if args.output:
-        print(f"[*] Results will be saved to: {args.output}")
+        try:
+            with open(args.output, "w") as f:
+                f.write(final_output + "\n")
+            print(f"\nData saved in {args.output}")
+        except Exception as e:
+            print(f"\nError saving data to {args.output}: {e}")
 
 if __name__ == "__main__":
     main()
