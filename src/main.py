@@ -4,6 +4,7 @@ import sys
 from ip_lookup import lookup_ip
 from username_lookup import lookup_username
 from domain_enum import enumerate_domain
+import os 
 
 def create_parser():
     """
@@ -72,11 +73,13 @@ def main():
         
     if args.output:
         try:
-            with open(args.output, "w") as f:
+            os.makedirs("output", exist_ok=True)
+            file_path = os.path.join("output", os.path.basename(args.output))
+            
+            with open(file_path, "w") as f:
                 f.write(final_output + "\n")
-            print(f"\nData saved in {args.output}")
+            print(f"\nData saved in {file_path}")
         except Exception as e:
             print(f"\nError saving data to {args.output}: {e}")
-
 if __name__ == "__main__":
     main()
