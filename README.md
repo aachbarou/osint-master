@@ -122,8 +122,6 @@ osint-master/
 │   ├── username_lookup.py
 │   ├── domain_enum.py
 │   └── main.py
-├── tests/
-│   └── test_main.py
 ├── output/
 │   └── (saved results will be stored here)
 ├── resources/
